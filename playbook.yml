@@ -1,0 +1,26 @@
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: install aptitude
+      apt:
+        name: [aptitude]
+        state: present
+        update_cache: yes
+    - name: install dependencies
+      apt:
+        name: [git, make, gcc, libelf-dev]
+        state: present
+        update_cache: yes
+    # Install rtl8812 driver
+    - name: clone source
+      git:
+        repo: https://github.com/msharov/rtl8812au.git
+        dest: /usr/local/src/rtl8812au
+    - name: build
+      make:
+        chdir: /usr/local/src/rtl8812au
+    - name: install
+      shell: |
+        cp /usr/local/src/rtl8812au/8812au.ko /lib/modules/$(uname -r)/kernel/drivers/net/wireless
+        depmod
+
