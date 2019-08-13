@@ -14,7 +14,7 @@
     # Install rtl8812 driver
     - name: clone source
       git:
-        repo: https://github.com/msharov/rtl8812au.git
+        repo: https://github.com/gnab/rtl8812au/
         dest: /usr/local/src/rtl8812au
     - name: build
       make:
